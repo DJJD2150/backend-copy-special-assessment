@@ -35,28 +35,29 @@ def get_special_paths(dirname):
         # is appended to the "path_list" list
         if special_file:
             # os.path.abspath gets the absolute path for the file name
-            path_list.append(os.path.abspath(filename))
+            path_list.append(os.path.abspath(os.path.join(dirname, filename)))
     # print(path_list)
     return path_list
 
 
-def copy_to(path_list, dest_dir):
+def copy_to(path_list, dir):
     """Returns a directory copy containing all the special files listed
     in the 'get_special_paths' function."""
     # if the "dest_dir" directory doesn't currently exist, make the directory
     # if it does exist, don't do anything though.  This conditional just makes
     # sure the directory is created or already exists before the next step.
-    if not os.path.isdir(dest_dir):
+    if not os.path.isdir(dir):
         # os.path.isdir checks to see if it's a directory, os.makedirs makes
         # a directory
-        os.makedirs(dest_dir)
+        os.makedirs(dir)
     # loops through the paths in path_list,
     for path in path_list:
+        dest_dir = os.path.join(dir, os.path.basename(path))
+        print(f'copying {path} to {dest_dir}')
         # copy "path" to the location "dest_dir"
         # shutil.copy's first argument is what you're copying
         # the second argument is where you're adding the copy to
         shutil.copy(path, dest_dir)
-    return
 
 
 def zip_to(path_list, dest_zip):
@@ -65,7 +66,6 @@ def zip_to(path_list, dest_zip):
     for path in path_list:
         print(f'zip -j {dest_zip} {path}')
         subprocess.run(['zip', '-j', dest_zip, path])
-    return
 
 
 def main(args):
@@ -99,8 +99,7 @@ def main(args):
     elif ns.tozip:
         zip_to(path_list, ns.tozip)
     else:
-        for path in path_list:
-            print(path)
+        print('\n'.join(path_list))
     # print(get_special_paths("."))
 
 
