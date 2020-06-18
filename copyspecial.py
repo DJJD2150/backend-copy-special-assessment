@@ -7,8 +7,8 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 
 # give credits
-__author__ = """DJJD2150, got help from Kano Marvel, Nikal Morgan's
-walkthrough Zoom meeting"""
+__author__ = """DJJD2150, got help from Kano Marvel, Ybrayym Abamov,
+Daniel Lomelino, and Nikal Morgan's walkthrough Zoom meeting"""
 
 import re
 import os
@@ -35,7 +35,7 @@ def get_special_paths(dirname):
         # is appended to the "path_list" list
         if special_file:
             # os.path.abspath gets the absolute path for the file name
-            path_list.append(os.path.abspath(filename))
+            path_list.append(os.path.abspath(os.path.join(dirname, filename)))
     # print(path_list)
     return path_list
 
